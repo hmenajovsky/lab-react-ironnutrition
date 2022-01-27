@@ -9,7 +9,6 @@ const AddForm = ({ addFood }) => {
   const handleSubmit = event => {
     event.preventDefault();
     const food = { name: name, calories: calories, image: image };
-    console.log(food);
     addFood(food);
   };
   return (    

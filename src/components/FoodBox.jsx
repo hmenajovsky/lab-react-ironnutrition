@@ -6,7 +6,6 @@ const FoodBox = props => {
   const [number, setNumber] = useState(1);
 
   const updateQuantity = (quantity) => {
-    console.log(quantity);
     food.quantity = quantity 
     setNumber(quantity);
   }

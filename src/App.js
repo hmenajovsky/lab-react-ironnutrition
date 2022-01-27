@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import './App.css';
 import 'bulma/css/bulma.css';
 import importedFoods from './foods.json';
-import FoodBox from './FoodBox';
-import AddForm from './AddForm';
-import SearchForm from './SearchForm';
-import TodayList from './TodayList';
+import FoodBox from './components/FoodBox';
+import AddForm from './components/AddForm';
+import SearchForm from './components/SearchForm';
+import TodayList from './components/TodayList';
 
 function App() {
   const [foods, setFoods] = useState(importedFoods);
 
   const addFood = food => {
-    setFoods([...foods, food]);
+    setFoods([...searchedFoods, food]);
     setClicked(!clicked);
   };
 
