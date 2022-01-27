@@ -1,24 +1,33 @@
-import React from 'react'
+import React from 'react';
 
-const TodayList = (props) => {
-    const {today} = props;
-    const isDisplayed = today.length > 1;
-    today.unshift();
-    console.log(today);
-    let total = today.reduce((acc, val) => acc + val.quantity * val.calories, 0);
-    console.log("total",total);
+const TodayList = props => {
+  const { today, deleteItem } = props;
+  let total = today.reduce((acc, val) => acc + val.quantity * val.calories, 0);
 
-    return (
-        <>
-        { isDisplayed && today.map(item => {
-            return (
-            <p>{item.quantity} {item.name}({item.calories} cal) = {item.calories * item.quantity} cal </p>
-            );
-            })}
-        <p>Total: {total} cal</p>
+  return (
+    <>
+      {today.map((item, i) => {
+        return (
+          <>
+            <p key = {i}>
+              {i > 0 && (
+                <span>
+                  {item.quantity} {item.name} = {item.calories * item.quantity} cal
+                </span>
+              )}
+              {i > 0 && (
+                <button onClick={() => deleteItem(item.name)}>Delete</button>
+              )}
+            </p>
+          </>
+        );
+      })}
+      <p>
+        <strong>Total: {total} cal</strong>
+      </p>
 
-        </>
-    )
-}
+    </>
+  );
+};
 
-export default TodayList
+export default TodayList;

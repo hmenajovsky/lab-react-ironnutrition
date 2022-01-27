@@ -12,6 +12,7 @@ function App() {
 
   const addFood = food => {
     setFoods([...foods, food]);
+    setClicked(!clicked);
   };
 
   const [clicked, setClicked] = useState(false);
@@ -26,43 +27,57 @@ function App() {
   } else {
     searchedFoods = foods;
   }
-  const [todayFood, setTodayFood] = useState([{name:"", calories:0, image:"", quantity:0, }]);
+  const [todayFood, setTodayFood] = useState([
+    { name: '', calories: 0, image: '', quantity: 0 }
+  ]);
 
-  let total = 0;
+  const addToList = food => {
 
-  const addToList = food => {        
-        setTodayFood([...todayFood, food]);
-        console.log("todayFood", todayFood);      
-       total = todayFood.reduce((acc, val) => Number(acc) + val.quantity, 0 ); /* sum of the added food items */
-      console.log("total",total);
+    const alreadyExist = todayFood.find(
+      (todayItem) => todayItem.name === food.name
+    );
+
+    if (alreadyExist) {
+      let duplicateQuantity = food.quantity;
+      const copy = [...todayFood];
+      copy.quantity += duplicateQuantity;
+      setTodayFood(copy);
+    } else {
+      setTodayFood([...todayFood, food]);
+    }
   };
 
+  const deleteItem = (name) => {
+    setTodayFood(todayFood.filter((food) => {
+      return food.name !== name;
+    }))
+  }
 
   return (
     <>
-      <SearchForm
-        searchedString={searchedString}
-        callbackSearch={setSearchedString}
-      />
+      <div>
+        <SearchForm
+          searchedString={searchedString}
+          callbackSearch={setSearchedString}
+        />
+      </div>
       <div className="columns">
-        <div className="column is-two-thirds">
+        <div className="column">
           <div>
             <h1>Add new food </h1>
             <p>
               <button onClick={() => setClicked(!clicked)}>OK</button>
             </p>
 
-            {clicked && <AddForm addFood={addFood} clicked={clicked} />}
+            {clicked && <AddForm addFood={addFood} />}
           </div>
           {searchedFoods.map((food, i) => {
             return (
-              <FoodBox food={food} key={food.name} addToList={addToList}/>
+              <FoodBox food={food} key={food.name} addToList={addToList} />
             );
           })}
         </div>
-        <div className="column">
-          <TodayList today={todayFood} />
-        </div>
+        <div className="column">{<TodayList today={todayFood} deleteItem={deleteItem}/>}</div>
       </div>
     </>
   );

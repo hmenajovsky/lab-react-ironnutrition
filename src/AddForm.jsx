@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const AddForm = ({ addFood, clicked }) => {
+const AddForm = ({ addFood }) => {
   const [name, setName] = useState("");
   const [calories, setcalories] = useState(0);
   const [image, setImage] = useState("");
@@ -11,9 +11,9 @@ const AddForm = ({ addFood, clicked }) => {
     const food = { name: name, calories: calories, image: image };
     console.log(food);
     addFood(food);
-    clicked = true;
   };
   return (    
+
     <form className="form" onSubmit={handleSubmit}>
       <label htmlFor="name">name</label>
       <input
